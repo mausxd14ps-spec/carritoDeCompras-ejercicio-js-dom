@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+<main class="container mt-5">
+    <div class="row text-center">
+        <article class="col-sm-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Frutilla 🍓</h5>
+                    <button class="btn btn-outline-primary" data-Fruta="Frutilla">Agregar</button>
+                </div>
+            </div>
+        </article>
+
+         <article class="col-sm-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Banana 🍌</h5>
+                    <button class="btn btn-outline-primary"data-Fruta="Banana">Agregar</button>
+                </div>
+            </div>
+        </article> 
+        
+        <article class="col-sm-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manzana 🍏</h5>
+                    <button class="btn btn-outline-primary" data-Fruta="Manzana">Agregar</button>
+                </div>
+            </div>
+        </article>
+    </div>
+</main>
+
+<section class="container mt-3">
+    <ul class="list-group" id="carrito">
+       
+    </ul>
+</section>
+
+<template id="template"> 
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span class="lead">Frutilla</span>
+        <span class="badge bg-primary rounded-pill">12</span>
+    </li>
+</template>
+
+
+<script src="app.js"></script>
+</body>
+</html>
