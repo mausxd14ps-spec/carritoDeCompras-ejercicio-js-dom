@@ -3,7 +3,7 @@ const template = document.querySelector('#template')
 const botones = document.querySelectorAll('.btn')
 const fragmento = document.createDocumentFragment()
 
-const carritoBackend = {}
+const carritoBackend = []
 
 const agregarACarritoBackend = (e) => {
     fruta = e.target.dataset.fruta
@@ -11,16 +11,21 @@ const agregarACarritoBackend = (e) => {
         titulo:fruta ,
         cantidad: 1,
     }
-    if (carritoBackend.hasOwnProperty(fruta)) {
-        producto.cantidad = carritoBackend[fruta].cantidad + 1
+    
+    indice = carritoBackend.findIndex((item) => item.titulo === fruta)
+    
+    if (indice === -1) {
+        carritoBackend.push(producto)
+    }else{
+        carritoBackend[indice].cantidad++
     }
     
-    carritoBackend[fruta] = producto
+    
     pintarcarrito()
 }
 
 const pintarcarrito = () => {
-    Object.values(carritoBackend).forEach((item) => {
+    carritoBackend.forEach((item) => {
         carrito.textContent = ''
         const clone = template.content.firstElementChild.cloneNode(true)
         clone.querySelector('.lead').textContent = item.titulo
