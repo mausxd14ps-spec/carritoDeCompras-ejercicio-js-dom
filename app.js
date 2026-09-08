@@ -37,3 +37,12 @@ const pintarcarrito = () => {
 
 
 botones.forEach((btn) => btn.addEventListener('click', agregarACarritoBackend))
+
+
+
+
+
+
+
+
+
