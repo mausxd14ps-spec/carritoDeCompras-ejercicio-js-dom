@@ -1,5 +1,5 @@
-# Mi primer carrito de compras simple
+# Mi primer formulario
 
 # Con fines educativos
 
-# Tine un problema de optimizacion en el agregado al template
+# Practica de js modificando dom anadiendo expresiones regulares

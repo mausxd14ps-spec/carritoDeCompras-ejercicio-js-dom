@@ -1,97 +1,62 @@
-const carrito = document.querySelector('#carrito')
-const template = document.querySelector('#template')
-const footer = document.querySelector('#footer')
-const templateFooter = document.querySelector('#templateFooter')
-const fragmento = document.createDocumentFragment()
+const formulario = document.getElementById("formulario")
+const userName = document.getElementById('userName')
+const userEmail = document.getElementById('userEmail')
 
-document.addEventListener('click', (e) => {
-    if (e.target.matches('.card .btn-outline-primary')) {
-        agregarACarritoBackend(e)}
-    if (e.target.matches('.d-flex .btn-success')){
-        btnAumentar(e)
+const regUserName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
+const regUserEmail = /^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$/;
+
+const alertSuccess = document.getElementById("alertSuccess");
+const alertName = document.getElementById("alertName");
+const alertEmail = document.getElementById("alertEmail");
+
+formulario.addEventListener("submit", (e) => {
+    const Errores = []
+
+    e.preventDefault()
+    alertSuccess.classList.add("d-none")
+
+    if (!regUserName.test(userName.value) || !userName.value.trim()) {
+        userName.classList.add("is-invalid")
+        Errores.push({
+            tipo:alertName,
+            msg: "Solo escriba letras"
+        })
+    }else{
+        userName.classList.remove("is-invalid")
+        userName.classList.add("is-valid")
+        alertName.classList.add("d-none")
     }
-    if (e.target.matches('.d-flex .btn-danger')){
-        btnQuitar(e)
+
+    if (!regUserEmail.test(userEmail.value) || !userEmail.value.trim()) {
+        userEmail.classList.add("is-invalid")
+        Errores.push({
+            tipo:alertEmail,
+            msg: "Escriba un correo valido"
+        })
+    }else{
+        userEmail.classList.remove("is-invalid")
+        userEmail.classList.add("is-valid")
+        alertEmail.classList.add("d-none")
     }
+
+    if (Errores.length !== 0) {
+        mostrarMsgError(Errores)
+    }else{
+        mostrarMsgExito()
+    }
+    
 })
 
-let carritoBackend = []
-
-const agregarACarritoBackend = (e) => {
-    fruta = e.target.dataset.fruta
-    const producto = {
-        titulo:fruta ,
-        cantidad: 1,
-        precio: parseInt(e.target.dataset.precio)
-    }
-    
-    indice = carritoBackend.findIndex((item) => item.titulo === fruta)
-    
-    if (indice === -1) {
-        carritoBackend.push(producto)
-    }else{
-        carritoBackend[indice].cantidad++
-    }
-    
-    
-    pintarcarrito()
+const mostrarMsgExito = () => {
+    alertSuccess.classList.remove("d-none")
+    alertSuccess.textContent = "Mensaje enviado con éxito"
 }
 
-const pintarcarrito = () => {
-    carrito.textContent = ''
-    carritoBackend.forEach((item) => {
-        const clone = template.content.cloneNode(true)
-        clone.querySelector('.text-white .lead').textContent = item.titulo
-        clone.querySelector('.badge').textContent = item.cantidad
-        clone.querySelector('div .lead span').textContent = item.precio * item.cantidad
-        clone.querySelector('.btn-danger').dataset.id = item.titulo
-        clone.querySelector('.btn-success').dataset.id = item.titulo
-        fragmento.appendChild(clone)
-    })
-    carrito.appendChild(fragmento)
-    pintarFooter()
+const mostrarMsgError = (Errores) => {
+    Errores.forEach(error => {
+        error.tipo.classList.remove("d-none")
+        error.tipo.textContent = error.msg
+    });
 }
-
-const pintarFooter = () => {
-    footer.textContent = ''
-    const Total = carritoBackend.reduce((acc, current) => acc + current.precio * current.cantidad, 0)
-    console.log(Total)
-    const clone = templateFooter.content.cloneNode(true)
-    clone.querySelector('span').textContent = Total
-    if (clone.querySelector('span').textContent > 0){
-        footer.appendChild(clone)
-    }
-}
-
-const btnAumentar = (e) => {
-    carritoBackend = carritoBackend.map(item => {
-        if (item.titulo === e.target.dataset.id) {
-            item.cantidad++
-        }
-        return item
-    })
-    pintarcarrito()
-}
-
-const btnQuitar = (e) => {
-    carritoBackend = carritoBackend.filter(item => {
-        if (item.titulo === e.target.dataset.id && item.cantidad > 0){
-                item.cantidad--
-                if (item.cantidad === 0) return
-                return item
-        }else {return item}
-    })
-    pintarcarrito()
-}
-
-
-
-
-
-
-
-
-
-
 
 
