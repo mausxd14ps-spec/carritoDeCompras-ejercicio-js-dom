@@ -6,36 +6,37 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
-<body class="bg-dark">
+<body class="">
+<div class="container my-5">
 
-<div class="container text-white">
-    <h1>Formulario</h1>
-    <form id="formulario" novalidate> 
-        <input 
-            class="form-control mb-2"
-            name="userName"
-            type="text"
-            placeholder="Ingrese nombre"
-            id="userName"
-            maxlength="10"
-            minlength="3"
-            required
-        >
-        <p class="text-danger mb-2 d-none" id="alertName"></p>
+    <!-- Spiner cargando -->
+    <section class="d-flex align-items-center d-none" id="Loading">
+        <strong role="status">Loading...</strong>
+        <div class="spinner-border ms-auto" aria-hidden="true"></div>
+    </section>
+    <!-- Spiner cargando -->
 
-        <input 
-            class="form-control mb-2"
-            name="userEmail"
-            type="email"
-            placeholder="Ingrese correo"
-            id="userEmail"
-            required
-            >
-        <p class="text-danger mb-2 d-none" id="alertEmail"></p>
-        <button class="btn btn-outline-primary" type="submit">Enviar</button>
-    </form>
-    <div class="alert alert-success my-2 d-none" id="alertSuccess"></div>
+    <!-- cartas -->
+    <section class="row" id="card-dinamicas">
+
+    </section>
+    <!-- cartas -->
+
 </div>
+
+<template id="template-card">
+    <article class="col-12 col-md-6 col-lg-3 mb-3">
+        <div class="card text-center shadow">
+            <img class="card-img-top" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="">
+            <div class="card-body">
+                <h5 class="card-title text-primary lead">
+                        El name de personaje
+                </h5>
+                <p class="lead">Humano</p>
+            </div>
+        </div>
+    </article>
+</template>
 
 <script src="app.js"></script>
 </body>

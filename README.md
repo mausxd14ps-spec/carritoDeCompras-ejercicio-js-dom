@@ -1,5 +1,5 @@
-# Mi primer formulario
+# Consumi mi primera api
 
-# Con fines educativos
+# Api de rick y morty
 
-# Practica de js modificando dom anadiendo expresiones regulares
+# Practica de js modificando dom, conocienod fetch api.
