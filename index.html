@@ -5,38 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
-<body class="">
-<div class="container my-5">
+<body class="bg-dark">
 
-    <!-- Spiner cargando -->
-    <section class="d-flex align-items-center d-none" id="Loading">
+    <div class="container my-5">
+    
+<!-- spiner -->
+        <div class="d-flex align-items-center d-none" id="spiner">
         <strong role="status">Loading...</strong>
         <div class="spinner-border ms-auto" aria-hidden="true"></div>
-    </section>
-    <!-- Spiner cargando -->
+        </div>
+<!-- spiner -->
+ <section class="row" id="cardDinamic">
 
-    <!-- cartas -->
-    <section class="row" id="card-dinamicas">
-
-    </section>
-    <!-- cartas -->
+     
+     
+</section>
 
 </div>
 
-<template id="template-card">
+<footer class="bg-dark text-center text-white p-5 d-flex align-items-center position-relative justify-content-between">
+    <button type="button" class="btn btn-outline-light d-none" data-accion="volver" >
+        <i class="bi bi-arrow-left text-danger lead">  Atras</i>
+    </button>
+   
+    <button type="button" class="btn btn-outline-light" data-accion="siguiente" >
+        <i class="bi bi-arrow-right text-primary lead"> Siguiente</i>
+    </button>
+
+
+
+</footer>
+
+<template id="templateCard">
     <article class="col-12 col-md-6 col-lg-3 mb-3">
-        <div class="card text-center shadow">
-            <img class="card-img-top" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="">
-            <div class="card-body">
-                <h5 class="card-title text-primary lead">
-                        El name de personaje
-                </h5>
-                <p class="lead">Humano</p>
+        <div class="card">
+            <img class="" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"  alt="...">
+            <div class="card-body text-center">
+            <div class="card-title">
+                <h5>nombre</h5>
+            </div>
+            <p class="lead text-primary">Aqui especie</p>
             </div>
         </div>
     </article>
 </template>
+
 
 <script src="app.js"></script>
 </body>

@@ -1,47 +1,86 @@
-const cardDinamicas = document.getElementById('card-dinamicas')
-const templateCard = document.getElementById('template-card').content
-
 document.addEventListener("DOMContentLoaded", () => {
-    fetchData();
+    dataDinamic();
 });
 
-const fetchData = async () => {
-    try {
+const templateCard = document.getElementById("templateCard").content
+const cardDinamic = document.getElementById('cardDinamic')
+const contenedorPaginacion = document.querySelector('footer')
 
-       loadingData(true)
-       const res = await fetch("https://rickandmortyapi.com/api/character")
-       const data = await res.json()
-       pintarCards(data)
+
+let url = 'https://rickandmortyapi.com/api/character'
+let urlNext = null
+let urlPrev = null
+
+const controlarPaginacion = () => {
+    const btnAtras = contenedorPaginacion.querySelector('[data-accion="volver"]');
+    const btnSiguiente = contenedorPaginacion.querySelector('[data-accion="siguiente"]');
+    btnAtras.classList.toggle('d-none', urlPrev === null);
+    btnSiguiente.classList.toggle('d-none', urlNext === null)
+}
+
+document.addEventListener ('click' , (e) => {
+
+    
+    const boton = e.target.closest('button')
+    if (!boton) {
+        return
+    }else{
+        const accion = boton.dataset.accion
+        if (accion === "siguiente") {
+            pasarSiguiente()
+        }else{volver()}
+    }
+})
+
+const pasarSiguiente = () => {
+    if (!urlNext) return;
+    url = urlNext
+    dataDinamic()
+}
+
+const volver = () => {
+    if(!urlPrev)return;
+    url = urlPrev
+    dataDinamic()
+}
+
+const dataDinamic = async () => {
+    try {
+        cargando(true)
+        const res = await fetch(url)
+        const data = await res.json()
+        urlNext = data.info.next
+        urlPrev = data.info.prev
+        pintarCard(data)
         
     } catch (error) {
         console.log(error)
-        
-    } finally {
-        loadingData(false)
-
+    }finally{
+        cargando(false)
     }
 }
 
-const pintarCards = (data) => {
+const pintarCard = (data) => {
+    cardDinamic.textContent = ""
     const fragmento = document.createDocumentFragment()
     data.results.forEach(item => {
         const clone = templateCard.cloneNode(true)
-        clone.querySelector('h5').textContent = item.name
-        clone.querySelector('p').textContent = item.species
-        clone.querySelector('img').src = item.image
-        clone.querySelector('img').alt = item.name
-
-        fragmento.appendChild(clone)  
+        clone.querySelector("h5").textContent = item.name
+        clone.querySelector("p").textContent = item.species
+        clone.querySelector("img").src = item.image
+        fragmento.appendChild(clone)
     });
-    cardDinamicas.appendChild(fragmento)
+    cardDinamic.appendChild(fragmento)
+    controlarPaginacion()
 }
 
-const loadingData = (estado) => {
-    const loading = document.getElementById('Loading')
+const cargando = (estado) => {
+    const spiner = document.getElementById('spiner')
     if (estado === true) {
-        loading.classList.remove("d-none")
-    }else {
-        loading.classList.add("d-none")
+        spiner.classList.remove('d-none')
+    }else{
+        spiner.classList.add('d-none')
     }
-
 }
+
+
