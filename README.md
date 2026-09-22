@@ -1,5 +1,7 @@
-# Mi primer formulario
+# Mi primera api
 
-# Con fines educativos
+# API DE RICK Y MORTY
 
-# Practica de js modificando dom anadiendo expresiones regulares
+# Practica de js y dom , practica de promesas, async await, trycatch, fetchapi
+
+# Conociendo las Apis
