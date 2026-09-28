@@ -1,86 +1,149 @@
-document.addEventListener("DOMContentLoaded", () => {
-    dataDinamic();
-});
+const formulario = document.getElementById('form')
+const columnaEstudiantes = document.getElementById('columnaEstudiantes')
+const columnaProfesores = document.getElementById('columnaProfesores')
+const templateEstudiante = document.getElementById('cardEstudiante').content
+const templateProfesor = document.getElementById('cardProfesores').content
+const alert = document.querySelector(".alert")
 
-const templateCard = document.getElementById("templateCard").content
-const cardDinamic = document.getElementById('cardDinamic')
-const contenedorPaginacion = document.querySelector('footer')
+
+const profesores = []
+const estudiantes = []
 
 
-let url = 'https://rickandmortyapi.com/api/character'
-let urlNext = null
-let urlPrev = null
-
-const controlarPaginacion = () => {
-    const btnAtras = contenedorPaginacion.querySelector('[data-accion="volver"]');
-    const btnSiguiente = contenedorPaginacion.querySelector('[data-accion="siguiente"]');
-    btnAtras.classList.toggle('d-none', urlPrev === null);
-    btnSiguiente.classList.toggle('d-none', urlNext === null)
-}
-
-document.addEventListener ('click' , (e) => {
-
-    
-    const boton = e.target.closest('button')
-    if (!boton) {
-        return
-    }else{
-        const accion = boton.dataset.accion
-        if (accion === "siguiente") {
-            pasarSiguiente()
-        }else{volver()}
+document.addEventListener('click', (e)=>{
+    if(e.target.dataset.uid){
+        if(e.target.matches('.btn-success')){
+            estudiantes.map(item => {
+                if(e.target.dataset.uid === item.uid){
+                    item.setEstado = true
+                }
+                return item
+            })
+        }
+        if(e.target.matches('.btn-danger')){
+            estudiantes.map(item => {
+                if(e.target.dataset.uid === item.uid){
+                    item.setEstado = false
+                }
+                return item
+            })
+        }
+        Persona.pintarPersonas("Estudiante")
     }
+    
+
 })
 
-const pasarSiguiente = () => {
-    if (!urlNext) return;
-    url = urlNext
-    dataDinamic()
-}
+formulario.addEventListener('submit', (e)=>{
+    e.preventDefault()
+    const data = new FormData(formulario)
+    const [nombre, edad, rol] = [...data.values()]
 
-const volver = () => {
-    if(!urlPrev)return;
-    url = urlPrev
-    dataDinamic()
-}
-
-const dataDinamic = async () => {
-    try {
-        cargando(true)
-        const res = await fetch(url)
-        const data = await res.json()
-        urlNext = data.info.next
-        urlPrev = data.info.prev
-        pintarCard(data)
-        
-    } catch (error) {
-        console.log(error)
-    }finally{
-        cargando(false)
-    }
-}
-
-const pintarCard = (data) => {
-    cardDinamic.textContent = ""
-    const fragmento = document.createDocumentFragment()
-    data.results.forEach(item => {
-        const clone = templateCard.cloneNode(true)
-        clone.querySelector("h5").textContent = item.name
-        clone.querySelector("p").textContent = item.species
-        clone.querySelector("img").src = item.image
-        fragmento.appendChild(clone)
-    });
-    cardDinamic.appendChild(fragmento)
-    controlarPaginacion()
-}
-
-const cargando = (estado) => {
-    const spiner = document.getElementById('spiner')
-    if (estado === true) {
-        spiner.classList.remove('d-none')
+    if(!nombre.trim() || !edad.trim() || !rol.trim()){
+        alert.classList.remove('d-none')
     }else{
-        spiner.classList.add('d-none')
+        alert.classList.add('d-none')
+    }
+
+    if(rol === "Profesor"){
+        const profesor = new Profesor(nombre,edad)
+        profesores.push(profesor)
+        Persona.pintarPersonas(rol)
+    }
+
+    if (rol === "Estudiante") {
+        const estudiante = new Estudiante(nombre,edad)
+        estudiantes.push(estudiante)
+        Persona.pintarPersonas(rol)
+        
+    }
+    
+})
+
+
+
+
+class Persona{
+    constructor(nombre, edad){
+        this.nombre = nombre
+        this.edad = edad 
+        this.uid = `${Date.now()}`
+    }
+    
+
+
+    static pintarPersonas(rol){
+        if (rol === "Profesor") {
+            columnaProfesores.textContent = ""
+            const fragmento = document.createDocumentFragment()
+            profesores.forEach(item => {
+                fragmento.appendChild(item.nuevoProfesor())
+        })
+        columnaProfesores.appendChild(fragmento)
+        }
+
+        if (rol === "Estudiante"){
+            columnaEstudiantes.textContent = ""
+            const fragmento = document.createDocumentFragment()
+            estudiantes.forEach(item => {
+                fragmento.appendChild(item.nuevoEstudiante())
+            })
+        columnaEstudiantes.appendChild(fragmento)
+        }
     }
 }
 
+class Estudiante extends Persona{
+    #rol = "Estudiante"
+    #estado = false
+    
 
+    set setEstado(estado){
+        this.#estado = estado
+    }
+
+    get getRol(){
+        return this.#rol
+    }
+
+    nuevoEstudiante(){
+        const clone = templateEstudiante.cloneNode(true)
+        clone.querySelector('h5 .text-primary').textContent = this.nombre
+        clone.querySelector('h6').textContent = this.getRol
+        clone.querySelector('.lead').textContent = this.edad
+        clone.querySelector('.btn-success').dataset.uid = this.uid
+        clone.querySelector('.btn-danger').dataset.uid = this.uid
+
+        if(this.#estado){
+            clone.querySelector('.btn-success').disabled = true;
+            clone.querySelector('.btn-danger').disabled = false;
+        }else{
+            clone.querySelector('.btn-danger').disabled = true;
+            clone.querySelector('.btn-success').disabled = false;
+        }
+
+
+        clone.querySelector('.badge').textContent = this.#estado ?"Aprobado" : "Reprobado"
+        clone.querySelector('.badge').className = this.#estado ?"bg-success badge " : "bg-danger badge"
+        
+        
+        return clone
+    }
+}
+
+class Profesor extends Persona{
+    #rol = "Profesor"
+
+    get getRol(){
+        return this.#rol
+    }
+
+    nuevoProfesor(){
+        const clone = templateProfesor.cloneNode(true)
+        clone.querySelector('h5').textContent = this.nombre
+        clone.querySelector('h6').textContent = this.getRol
+        clone.querySelector('.lead').textContent = this.edad
+        return clone
+    }
+    
+}

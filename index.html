@@ -8,49 +8,68 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body class="bg-dark">
+    <div class="container text-white my-5">
+            <h1>Agrega Estudiantes y Profesores</h1>
 
-    <div class="container my-5">
-    
-<!-- spiner -->
-        <div class="d-flex align-items-center d-none" id="spiner">
-        <strong role="status" class="text-white">Loading...</strong>
-        <div class="spinner-border ms-auto text-light" aria-hidden="true"></div>
-        </div>
-<!-- spiner -->
- <section class="row" id="cardDinamic">
-
-     
-     
-</section>
-
-</div>
-
-<footer class="bg-dark container-fluid text-white p-5 d-flex align-items-center justify-content-between">
-    <button type="button" class="btn btn-outline-light d-none" data-accion="volver" >
-        <i class="bi bi-arrow-left text-danger lead">  Atras</i>
-    </button>
-   
-    <button type="button" class="btn btn-outline-light d-none" data-accion="siguiente" >
-        <i class="bi bi-arrow-right text-primary lead"> Siguiente</i>
-    </button>
-
-
-
-</footer>
-
-<template id="templateCard">
-    <article class="col-12 col-md-6 col-lg-3 mb-3">
-        <div class="card">
-            <img class="" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"  alt="...">
-            <div class="card-body text-center">
-            <div class="card-title">
-                <h5>nombre</h5>
+            <div class="alert alert-danger my-2 d-none" role="alert">
+                Todos los campos son obligatorios
             </div>
-            <p class="lead text-primary">Aqui especie</p>
-            </div>
+
+            <form id="form">
+                <input class="form-control mb-2" type="text" placeholder="Ingrese su nombre" value="jermy" name="nombre" required>
+                <input class="form-control mb-2" type="number" placeholder="Ingrese su edad"  value="22" name="edad" required>
+                <select class="form-select mb-2" name="rol">
+                    <option value="Estudiante" selected>Estudiante</option>
+                    <option value="Profesor">Profesor</option>
+                </select>
+                <button type="submit" class="btn btn-primary mb-3">Agregar</button>
+            </form>
+
+            <!-- seccion de agregados  -->
+
+            <section class="row my-3">
+
+                <!-- fila de estudiantes  -->
+                <div class="col-6" id="columnaEstudiantes">
+                 
+                </div>
+                   
+                <!-- fila de profesores  -->
+                <div class="col-6" id="columnaProfesores">
+                    
+                </div>
+
+
+            </section>
+    </div>
+
+<!-- templates  -->
+
+<template id="cardEstudiante">
+    <article class="card mb-2">
+        <div class="card-body">
+            <h5>
+                <span class="text-primary">Nombre</span>
+                <span class="badge bg-success">Aprobado</span>
+            </h5>
+            <h6></h6>
+            <p class="lead">edad</p>
+            <button class="btn btn-success">Aprobar</button>
+            <button class="btn btn-danger">Reprobar</button>
         </div>
     </article>
 </template>
+
+<template id="cardProfesores">
+    <article class="card mb-2 bg-info text-white">
+        <div class="card-body ">
+            <h5>nombre</h5>
+            <h6>profesor</h6>
+            <p class="lead">edad</p>
+        </div>
+    </article>
+</template>
+
 
 
 <script src="app.js"></script>
