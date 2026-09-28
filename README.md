@@ -1,5 +1,5 @@
-# Consumi mi primera api
+# POO
 
-# Api de rick y morty
+# Aplique la POO, utilice los prototipos , las clases y las herede
 
-# Practica de js modificando dom, conocienod fetch api.
+# Force el uso de la POO
